@@ -1,4 +1,4 @@
-from conans import ConanFile
+from conans import ConanFile, CMake
 
 class ConnaPackage(ConanFile):
    name = 'network-monitor'
@@ -7,5 +7,9 @@ class ConnaPackage(ConanFile):
    generators = 'cmake_find_package'
 
    requires = [
-
+      ('boost/1.75.0'),
    ]
+
+   default_options = (
+      'boost:shared=False',
+   )
