@@ -59,6 +59,10 @@ Network_Monitor
 ### Build
 ```shell
 cd build
+
+# Must be build conan first (install library,..)
+conan install .. --profile ../conanprofile.toml
+
 cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release
 ninja
 
