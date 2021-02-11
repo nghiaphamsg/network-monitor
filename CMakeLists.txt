@@ -16,7 +16,7 @@ add_executable(network-monitor ${SOURCES})
 
 target_compile_features(network-monitor
     PRIVATE 
-        cxx_std_11   
+        cxx_std_14
 )
 
 target_link_libraries(network-monitor
