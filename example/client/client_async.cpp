@@ -131,6 +131,8 @@ void onResolve (
    /* Connect to the TCP socket.
       Instead of constructing the socket and the ws objects separately, the
       socket is now embedded in ws, and we access it through next_layer() */
+   /* iterates (endpoint) through the address list of the host that you specified
+      (hosts can have multiple addresses) */
    wc.next_layer().async_connect(*endpoint,
       [&wc, &url, &wbuffer, &rbuffer](auto ec) {
          onConnect(wc, url, wbuffer, rbuffer, ec);
