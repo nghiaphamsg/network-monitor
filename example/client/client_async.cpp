@@ -11,6 +11,10 @@
  *        4. Use the websocket::stream object to send a WebSocket handshake.
  *        5. When the handshake succeeds,
  *           use the Beast websocket::stream object to send a message
+ * 
+ * @note: When calling asynchronous APIs, you need to run the
+ *        Boost I/O context with the run function. Make sure the run function
+ *        has work to do before calling it, or it will return immediately.
  */
 
 #include <boost/beast.hpp>
