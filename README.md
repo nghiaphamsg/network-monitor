@@ -51,9 +51,14 @@ Network_Monitor
   ├── .gitignore
   ├── build
   │   └── .gitignore
-  ├── CMakeLists.txt
-  └── src
-      └── main.cpp
+  ├── example               (basic code implementation example)
+  ├── src                   (main source)
+  │   ├── ...
+  │   └── main.cpp
+  ├── CMakeLists.txt        (build configuration)
+  ├── conanfile.py          (dependency manager)custom profile
+  └── conanprofile.toml     (custom profile)
+
 ```
 
 ### Build
