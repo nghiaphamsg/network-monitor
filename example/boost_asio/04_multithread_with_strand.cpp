@@ -20,7 +20,7 @@
 #include <iomanip>
 #include <vector>
 
-void Log(boost::system::error_code);
+void Log (boost::system::error_code);
 void OnConnect (boost::system::error_code);
 
 int main()
@@ -30,17 +30,17 @@ int main()
               << "] main"
               << std::endl;
 
-    boost::system::error_code ec{};
+    boost::system::error_code ec {};
 
     /* Create I/O context */
-    boost::asio::io_context ioc{};
+    boost::asio::io_context ioc {};
 
     /* Create I/O object */
     /* strand mechanism to help with the synchronization of concurrent io_context::run loops */
-    boost::asio::ip::tcp::socket socket{boost::asio::make_strand(ioc)};
+    boost::asio::ip::tcp::socket socket {boost::asio::make_strand(ioc)};
 
-    boost::asio::ip::tcp::resolver resolver{ioc};
-    auto endpoint{resolver.resolve("google.com", "80", ec)};
+    boost::asio::ip::tcp::resolver resolver {ioc};
+    auto endpoint {resolver.resolve("google.com", "80", ec)};
 
     if (ec)
     {
@@ -55,7 +55,7 @@ int main()
     }
 
     /* We must call io_context::run for asynchronous callbacks to run */
-    std::vector<std::thread> threads{};
+    std::vector<std::thread> threads {};
     threads.reserve(nThreads);
     for (size_t i = 0; i < nThreads; ++i)
     {
@@ -76,12 +76,12 @@ int main()
     return 0;
 }
 
-void OnConnect(boost::system::error_code ec)
+void OnConnect (boost::system::error_code ec)
 {
     Log(ec);
 }
 
-void Log(boost::system::error_code ec)
+void Log (boost::system::error_code ec)
 {
     std::cerr << "[" << std::setw(14) << std::this_thread::get_id() << "] "
               << (ec ? "Error: " : "OK")

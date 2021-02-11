@@ -19,7 +19,7 @@ int main ()
    boost::system::error_code ec {};
 
    /* The socket object tries to connect to 1.1.1.1:80 */
-   auto address { boost::asio::ip::address::from_string("1.1.1.1") };
+   auto address {boost::asio::ip::address::from_string("1.1.1.1")};
    boost::asio::ip::tcp::endpoint endpoint {address, 80};
    socket.connect(endpoint, ec);
 
