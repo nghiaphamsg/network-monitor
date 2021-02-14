@@ -15,6 +15,9 @@
  * @note: When calling asynchronous APIs, you need to run the
  *        Boost I/O context with the run function. Make sure the run function
  *        has work to do before calling it, or it will return immediately.
+ * 
+ * @comment: The code wasn't pretty, but it was very helpful to identify 
+ *           the state that needs to be encapsulated in the class.
  */
 
 #include <boost/beast.hpp>
