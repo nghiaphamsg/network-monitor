@@ -1,17 +1,25 @@
 /* @brief: we provide you with a simple test to verify websocket-client code works
- * 
+ *         Use a unit testing library (The Boost.Test library is a very common choice
+ *         in this case, and since we are already using the Boost libraries,
+ *         it is also a natural choice to make)
  */
+
+/* BOOST_TEST_MODULE should be defined as the very first thing in the test
+   file, and the Boost.Test header included immediately after */
+#define BOOST_TEST_MODULE network-monitor
 
 #include "WebSocketClient.h"
 
 #include <boost/asio.hpp>
+#include <boost/test/unit_test.hpp>
 
 #include <iostream>
 #include <string>
 
 using NetworkMonitor::WebSocketClient;
 
-int main()
+BOOST_AUTO_TEST_SUITE(network_monitor);
+BOOST_AUTO_TEST_CASE(test_class_WebSocketClient)
 {
    /* Connection targets */
    const std::string url {"echo.websocket.org"};
@@ -31,6 +39,7 @@ int main()
    bool messageReceived {false};
    bool messageMatches {false};
    bool disconnected {false};
+   std::string echo {};
 
    /* Our own callbacks */
    auto onSend{[&messageSent](auto ec) {
@@ -53,9 +62,11 @@ int main()
                    &onClose,
                    &messageReceived,
                    &messageMatches,
-                   &message](auto ec, auto received) {
+                  // &message](auto ec, auto received) {
+                   &echo](auto ec, auto received) {
       messageReceived = !ec;
-      messageMatches = message == received;
+      // messageMatches = message == received;
+      echo = std::move(received);
       client.Close(onClose);
    }};
 
@@ -64,6 +75,7 @@ int main()
    ioc.run();
 
    /* When we get here, the io_context::run function has run out of work to do */
+#if 0
    bool ok{
       connected &&
       messageSent &&
@@ -79,5 +91,14 @@ int main()
    {
       std::cerr << "Test failed" << std::endl;
       return 1;
-   }
+   }   
+#endif
+
+   BOOST_CHECK(connected);
+   BOOST_CHECK(messageSent);
+   BOOST_CHECK(messageReceived);
+   BOOST_CHECK(disconnected);
+   BOOST_CHECK_EQUAL(message, echo);
 }
+
+BOOST_AUTO_TEST_SUITE_END();

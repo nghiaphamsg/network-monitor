@@ -14,19 +14,19 @@ find_package(Boost 1.75 REQUIRED COMPONENTS system)
 set(LIB_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/WebSocketClient.cpp"
 )
-add_library(network-monitor STATIC ${LIB_SOURCES})
+add_library(network-monitor-lib STATIC ${LIB_SOURCES})
 
-target_compile_features(network-monitor
+target_compile_features(network-monitor-lib
     PUBLIC 
         cxx_std_14
 )
 
-target_include_directories(network-monitor
+target_include_directories(network-monitor-lib
     PUBLIC
         inc
 )
 
-target_link_libraries(network-monitor
+target_link_libraries(network-monitor-lib
     PUBLIC
         Boost::Boost
 )
@@ -44,6 +44,6 @@ target_compile_features(network-monitor-tests
 
 target_link_libraries(network-monitor-tests
     PRIVATE
-        network-monitor
+        network-monitor-lib
         Boost::Boost
 )
