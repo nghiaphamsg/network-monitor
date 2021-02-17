@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 project(network-monitor)
 
@@ -9,6 +9,7 @@ if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/conaninfo.txt)
     list(PREPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_BINARY_DIR}")    
 endif()
 find_package(Boost 1.75 REQUIRED COMPONENTS system)
+find_package(OpenSSL REQUIRED)
 
 # Static library
 set(LIB_SOURCES
@@ -29,6 +30,7 @@ target_include_directories(network-monitor-lib
 target_link_libraries(network-monitor-lib
     PUBLIC
         Boost::Boost
+        OpenSSL:OpenSSL
 )
 
 # Test area
