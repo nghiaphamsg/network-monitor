@@ -30,7 +30,7 @@ target_include_directories(network-monitor-lib
 target_link_libraries(network-monitor-lib
     PUBLIC
         Boost::Boost
-        OpenSSL:OpenSSL
+        OpenSSL::OpenSSL
 )
 
 # Test area
