@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  network-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: network-monitor
+    volumes:
+      - /home/neko/Projects/Network_Monitor:/home/network_monitor

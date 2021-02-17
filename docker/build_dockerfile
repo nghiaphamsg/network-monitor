@@ -1,0 +1,10 @@
+#! /bin/bash
+
+# Make sure the script is being executed with superuser privileges.
+if [[ ${UID} -ne 0 ]] 
+then
+  echo "Executed with superuser (root) pls."
+  exit 1
+fi
+
+sudo docker image build -t network-monitor .
