@@ -1,13 +1,30 @@
 <h1> Network Monitor </h1>
 
-## 1. Tooling
-### A compiler/linker (it depends on your operating system: GCC, MSVC, or Apple Clang)
+## 1. Clone source
+```
+git clone https://github.com/nghiaphamsg/Network_Monitor.git
+```
+
+## 2. Run on docker
+
+```
+# Clone repo from dockerhub
+sudo docker pull nghiaphamsg/network-monitor
+
+# Run docker container
+cd Network_Monitor/docker
+./run_docker_local
+```
+
+## 3. Run on host (Linux 20.04)
+### 3.1. Tooling
+- A compiler/linker (it depends on your operating system: GCC, MSVC, or Apple Clang)
 ```shell
 sudo apt-get update
 sudo apt-get install -y build-essential gcc-10 g++-10
 ```
 
-### A build system (ninja) and build generator (CMake)
+- A build system (ninja) and build generator (CMake)
 ```shell
 sudo apt-get update
 sudo apt-get install -y ninja-build cmake
@@ -15,7 +32,7 @@ ninja --version
 cmake --version
 ```
 
-### A dependency manager (conan) (requires Python 3)
+- A dependency manager (conan) (requires Python 3)
 ```shell
 sudo apt-get update
 sudo apt-get install -y python3 python3-pip
@@ -32,20 +49,20 @@ conan profile new default --detect
 conan profile update settings.compiler.libcxx=libstdc++11 default
 ```
 
-### Version control software (git)
+- Version control software (git)
 ```shell
 sudo apt-get update
 sudo apt-get install -y git
 git --version
 ```
 
-## 2. Development environment
-### Create the top-level folder where the Project code
-```shell
-mkdir Network_Monitor && cd Network_Monitor
+### 3.2 Build
+```
+cd Network_Monitor
+./run-build
 ```
 
-### Project structure
+## 4. Project structure
 ```
 Network_Monitor
   ├── .gitignore
@@ -59,18 +76,4 @@ Network_Monitor
   ├── conanfile.py          (dependency manager)custom profile
   └── conanprofile.toml     (custom profile)
 
-```
-
-### Build
-```shell
-cd build
-
-# Must be build conan first (install library,..)
-conan install .. --profile ../conanprofile.toml
-
-cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release
-ninja
-
-#Run app
-./network-monitor
 ```
