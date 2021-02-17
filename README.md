@@ -8,12 +8,16 @@ git clone https://github.com/nghiaphamsg/Network_Monitor.git
 ## 2. Run on docker
 
 ```
-# Clone repo from dockerhub
+# Clone repo from dockerhub (requires docker version 20.10.3 or higher)
 sudo docker pull nghiaphamsg/network-monitor
 
 # Run docker container
 cd Network_Monitor/docker
 ./run_docker_local
+
+# [Option] You can build your dockerfile on local
+cd Network_Monitor/docker
+./build_dockerfile
 ```
 
 ## 3. Run on host (Linux 20.04)
