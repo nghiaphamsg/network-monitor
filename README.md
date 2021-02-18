@@ -1,27 +1,34 @@
 <h1> Network Monitor </h1>
 
-## 1. Clone source
+### 1. Introduction
+- Implement an itinerary recommendation engine that generates Tube trips based on real-time network load.
+![Screenshot from 2021-02-18 22-30-25](https://user-images.githubusercontent.com/32474027/108364683-b0cf2580-7239-11eb-9a88-f54c45b23ab1.png)
+
+### 2. Usage
+**2.1. Clone source**
 ```
 git clone https://github.com/nghiaphamsg/Network_Monitor.git
 ```
 
-## 2. Run on docker
-
+**2.2. Run on docker (recommended)**
+*Note: Requires docker version 20.10.3 or higher*
 ```
-# Clone repo from dockerhub (requires docker version 20.10.3 or higher)
+# Clone dockerfile from dockerhub (recommended)
 sudo docker pull nghiaphamsg/network-monitor
 
-# Run docker container
+# Or build dockerfile on local (optional)
 cd Network_Monitor/docker
-./run_docker_local
+sudo ./build_dockerfile
 
-# [Option] You can build your dockerfile on local
-cd Network_Monitor/docker
-./build_dockerfile
+# Modify source path in "run_docker_local"
+# Note: if you build dockerfile on local you must rename dockerfile name to "network-monitor"
+vi run_docker_local
+
+# Run docker container
+sudo ./run_docker_local
 ```
 
-## 3. Run on host (Linux 20.04)
-### 3.1. Tooling
+**2.3. Run on linux host (optional)**
 - A compiler/linker (it depends on your operating system: GCC, MSVC, or Apple Clang)
 ```shell
 sudo apt-get update
@@ -60,24 +67,24 @@ sudo apt-get install -y git
 git --version
 ```
 
-### 3.2 Build
+**3. Build**
 ```
 cd Network_Monitor
 ./run-build
 ```
 
-## 4. Project structure
+### 3. Project structure
 ```
 Network_Monitor
-  ├── .gitignore
   ├── build
-  │   └── .gitignore
-  ├── example               (basic code implementation example)
-  ├── src                   (main source)
-  │   ├── ...
-  │   └── main.cpp
-  ├── CMakeLists.txt        (build configuration)
-  ├── conanfile.py          (dependency manager)custom profile
-  └── conanprofile.toml     (custom profile)
-
+  ├── CMakeLists.txt          (build configuration)
+  ├── conanfile.py            (dependency manager)
+  ├── conanprofile.toml       (custom profile)
+  ├── docker                  (developer environments)
+  ├── example                 (basic code implementation example)
+  ├── inc                     (contain header file)
+  ├── README.md
+  ├── run-build               (build script)
+  ├── src                     (contain cxx file)
+  └── tests
 ```
