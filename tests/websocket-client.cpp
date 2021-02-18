@@ -15,10 +15,18 @@
 
 #include <iostream>
 #include <string>
+#include <filesystem>
 
 using NetworkMonitor::WebSocketClient;
 
 BOOST_AUTO_TEST_SUITE(network_monitor);
+
+/* Add a specific test just to make sure that the file is found */
+BOOST_AUTO_TEST_CASE(cacert_pem)
+{
+   BOOST_CHECK(std::filesystem::exists(TESTS_CACERT_PEM));
+}
+
 BOOST_AUTO_TEST_CASE(test_class_WebSocketClient)
 {
    /* Connection targets */
