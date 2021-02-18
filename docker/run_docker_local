@@ -7,4 +7,4 @@ then
   exit 1
 fi
 
-sudo docker container run --rm -it -v /home/neko/Projects/Network_Monitor:/home/network_monitor nghiaphamsg/network-monitor
+sudo docker container run --rm -it -v <PATH_TO_SOURCE/Network_Monitor>:/home/network_monitor nghiaphamsg/network-monitor
