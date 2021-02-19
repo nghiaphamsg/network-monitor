@@ -4,4 +4,14 @@ conan install .. --profile ../conanprofile.toml --build missing
 cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release
 ninja
 
-cp network-monitor-tests ../
+# Check argument
+if [[ ${1} == "test" ]]
+then
+    echo "_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/"
+    echo "First test"
+    ninja test
+    echo "_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/"
+    echo "Second test"
+    ./network-monitor-tests
+    echo "_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/"
+fi
