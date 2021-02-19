@@ -67,7 +67,7 @@ sudo apt-get install -y git
 git --version
 ```
 
-**3. Build**
+**2.4. Build**
 ```
 cd Network_Monitor
 ./run-build
