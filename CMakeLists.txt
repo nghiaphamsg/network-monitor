@@ -61,6 +61,7 @@ target_link_libraries(network-monitor-tests
     PRIVATE
         network-monitor-lib
         Boost::Boost
+        OpenSSL::OpenSSL
         std::filesystem
 )
 
