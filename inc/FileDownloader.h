@@ -6,6 +6,8 @@
 #ifndef FILE_DOWNLOADER_H
 #define FILE_DOWNLOADER_H
 
+#include <nlohmann/json.hpp>
+
 #include <string>
 #include <filesystem>
 
@@ -15,6 +17,10 @@ namespace NetworkMonitor
         const std::string& fileURL,
         const std::filesystem::path& destination,
         const std::filesystem::path& caFile = {}
+    );
+
+    nlohmann::json ParseJsonFile (
+        const std::filesystem::path& src
     );
 }   /* namespace NetworkMonitor */
 

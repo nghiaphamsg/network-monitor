@@ -3,6 +3,8 @@
  */
 
 #include <FileDownloader.h>
+
+#include <nlohmann/json.hpp>
 #include <curl/curl.h>
 
 #include <stdio.h>
@@ -10,6 +12,7 @@
 #include <string>
 #include <string.h>
 #include <filesystem>
+#include <fstream>
 
 bool NetworkMonitor::DownloadFile (
     const std::string& fileURL,
@@ -68,4 +71,26 @@ bool NetworkMonitor::DownloadFile (
     fclose(fp);
 
     return res == CURLE_OK;
+}
+
+nlohmann::json NetworkMonitor::ParseJsonFile (
+    const std::filesystem::path& src
+)
+{
+    nlohmann::json parsed {};
+    if (!std::filesystem::exists(src))
+    {
+        return parsed;
+    }
+    try
+    {
+        std::ifstream file {src};
+        file >> parsed;
+    }
+    catch(...)
+    {
+        /* Return an empty object */
+    }
+    
+    return parsed;
 }
