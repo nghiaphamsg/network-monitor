@@ -8,6 +8,7 @@ class ConnaPackage(ConanFile):
 
    requires = [
       ('boost/1.75.0'),
+      ('libcurl/7.73.0'),
       ('openssl/1.1.1i'),
    ]
 
