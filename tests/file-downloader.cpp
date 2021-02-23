@@ -25,7 +25,9 @@ BOOST_AUTO_TEST_CASE(test_file_download)
     BOOST_CHECK(downloaded);
     BOOST_CHECK(std::filesystem::exists(destination));
 
-    /* Check the content of the file */
+    /* Check the content of the file,
+       cannot check the whole file content as it changes over time
+       but can at least check some expected file properties */
     {
         const std::string keyWord {"\"stations\": ["};
         std::ifstream file {destination};
