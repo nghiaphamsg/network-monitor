@@ -6,7 +6,9 @@
 #include <curl/curl.h>
 
 #include <stdio.h>
+#include <iostream>
 #include <string>
+#include <string.h>
 #include <filesystem>
 
 bool NetworkMonitor::DownloadFile (
@@ -15,6 +17,10 @@ bool NetworkMonitor::DownloadFile (
     const std::filesystem::path& caFile
 )
 {
+    /* Provide a buffer to store errors */
+    char errBuff[CURL_ERROR_SIZE];
+    errBuff[0] = 0;
+
     CURL* curl {curl_easy_init()};
     if (curl == nullptr)
     {
@@ -30,16 +36,35 @@ bool NetworkMonitor::DownloadFile (
 
     /* Configuration curl */
     curl_easy_setopt(curl, CURLOPT_URL, fileURL.c_str());
+    curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errBuff);
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_CAINFO, caFile.string().c_str());
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
 
-    /* Perform the request */
+    /* Perform the request & check error code */
     CURLcode res = curl_easy_perform(curl);
-    curl_easy_cleanup(curl);
+    if (res != CURLE_OK) {
+        size_t len = strlen(errBuff);
+        std::cerr << "libcurl: " << res << std::endl;
+        if (len)
+        {
+            std::cerr << errBuff
+                      << ((errBuff[len - 1] != '\n') ? "\n" : "")
+                      << std::endl;
+        }
+        else
+            std::cerr <<  curl_easy_strerror(res) << std::endl;
+        
+        /* Clean up */
+        curl_easy_cleanup(curl);
+        fclose(fp);
+        return false;
+    }
 
+    /* Clean up */
+    curl_easy_cleanup(curl);
     fclose(fp);
 
     return res == CURLE_OK;
