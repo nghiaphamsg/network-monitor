@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+#include <unordered_map>
 
 namespace NetworkMonitor
 {
@@ -209,26 +211,74 @@ private:
     struct RouteInternal;
     struct LineInternal;
 
+    /* Graph node
+       We use this as the internal station representation */
     struct GraphNode
     {
-        /* data */
+        Id id {};
+        std::string name {};
+        long long int passengerCount {0};
+        std::vector<std::shared_ptr<GraphEdge>> edges {};
+
+        /* Find the edge for a specific line route */
+        std::vector<std::shared_ptr<GraphEdge>>::const_iterator FindEdgeForRoute(
+            const std::shared_ptr<RouteInternal>& route
+        ) const;
     };
     
+    /* Graph edge
+       We keep one edge for each route going through a node, even if multiple
+       routes go through the same node */
     struct GraphEdge
     {
-        /* data */
+        std::shared_ptr<RouteInternal> route {nullptr};
+        std::shared_ptr<GraphNode> nextStop {nullptr};
+        unsigned int travelTime {0};
     };
 
+    /* Internal route representation */
     struct RouteInternal
     {
-        /* data */
+        Id id {};
+        std::shared_ptr<LineInternal> line {nullptr};
+        std::shared_ptr<GraphNode> stops {nullptr};
     };
 
+    /* Internal line representation
+       We map line routes by their ID */
     struct LineInternal
     {
-        /* data */
+        Id id {};
+        std::string name {};
+        std::unordered_map<Id, std::shared_ptr<RouteInternal>> routes {};
     };
 
+    /* Map station and lines by ID. We do not map line routes here, as they
+       are mapped within each line representation */
+    std::unordered_map<Id, std::shared_ptr<GraphNode>> stations_ {};
+    std::unordered_map<Id, std::shared_ptr<LineInternal>> lines_ {};
+
+    /* Get station by id */
+    std::shared_ptr<GraphNode> GetStation(
+        const Id& stationId
+    ) const;
+
+    /* Get line by id */
+    std::shared_ptr<LineInternal> GetLine(
+        const Id& lineId
+    ) const; 
+
+    /* Get route by id */
+    std::shared_ptr<RouteInternal> GetRoute(
+        const Id& lineId,
+        const Id& routeId
+    ) const; 
+
+    /* This function adds a route to the internal line representation */
+    bool AddRouteToLine(
+        const Route& route,
+        const std::shared_ptr<LineInternal>& lineInternal
+    );
 };
     
 }   /* namespace NetworkMonitor */
